@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 // Define the initial state for field-specific errors
 const initialFieldErrors = {
@@ -24,7 +25,7 @@ const initialErrors = {
 
 export default function SignUpComponent() {
   const t = useTranslations("signup"); // 🌟 Initialize translation hook
-  const t2 = useTranslations('errors')
+  const t2 = useTranslations("errors");
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -34,8 +35,6 @@ export default function SignUpComponent() {
   const router = useRouter();
 
   // Function to map the backend error code to the corresponding i18n key
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,14 +56,18 @@ export default function SignUpComponent() {
     } catch (err) {
       if (err.response) {
         setErrors(err.response.data);
-      }
-      else {
-         setErrors({general : 'unexpectedError'})
+      } else {
+        setErrors({ general: "unexpectedError" });
       }
     } finally {
       setLoading(false);
     }
   };
+
+  const handleGoogleLogin = () => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
+    router.push(url)
+  }
 
   return (
     <div className="mx-auto max-w-sm space-y-6 ">
@@ -77,7 +80,9 @@ export default function SignUpComponent() {
 
           {/* Display the general error message (if set) */}
           {errors.general && (
-            <span className="text-red-500 block mt-2">{t2(errors.general)}</span>
+            <span className="text-red-500 block mt-2">
+              {t2(errors.general)}
+            </span>
           )}
         </p>
       </div>
@@ -92,9 +97,7 @@ export default function SignUpComponent() {
             onChange={(e) => setUsername(e.target.value)}
           />
           {errors.username && (
-            <p className="text-sm text-red-500">
-              {t2(errors.username)}
-            </p>
+            <p className="text-sm text-red-500">{t2(errors.username)}</p>
           )}
         </div>
 
@@ -108,9 +111,7 @@ export default function SignUpComponent() {
             onChange={(e) => setEmail(e.target.value)}
           />
           {errors.email && (
-            <p className="text-sm text-red-500">
-              {t2(errors.email)}
-            </p>
+            <p className="text-sm text-red-500">{t2(errors.email)}</p>
           )}
         </div>
 
@@ -124,9 +125,7 @@ export default function SignUpComponent() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && (
-            <p className="text-sm text-red-500">
-              {t2(errors.password)}
-            </p>
+            <p className="text-sm text-red-500">{t2(errors.password)}</p>
           )}
         </div>
 
@@ -141,12 +140,15 @@ export default function SignUpComponent() {
             t("submit")
           )}
         </Button>
-        <Button variant="outline" className="w-full" disabled={loading}>
-          {/* Translated Social Login (was "Login with Google") */}
-          {/* {t("socialSignup", { provider: "Google" }) ||
-            "S'inscrire avec Google"} */}
+        <Button
+          variant="outline"
+          className="w-full "
+          disabled={loading}
+          onClick={handleGoogleLogin}
+        >
+          <Image src={"/google-icon.svg"} height={20} width={20} alt="google" />
+          {t("googleLogin")}
         </Button>
-
         <div className="mt-4 text-center text-sm">
           {/* 🌟 Translated link text */}
           {t("haveAccount_prefix")}{" "}

@@ -16,7 +16,9 @@
     "socialLogin": "تسجيل الدخول باستخدام {{provider}}",
     "forgotPassword": "هل نسيت كلمة المرور؟",
     "noAccount_prefix": "ليس لديك حساب؟",
-    "noAccount_link": "إنشاء حساب"
+    "noAccount_link": "إنشاء حساب",
+    "googleLogin" : "Login with Google"
+
   },
   "signup": {
     "title": "إنشاء حساب جديد",
@@ -29,7 +31,9 @@
     "loadingText": "جارٍ التحميل",
     "socialSignup": "إنشاء حساب باستخدام {{provider}}",
     "haveAccount_prefix": "هل لديك حساب بالفعل؟",
-    "haveAccount_link": "تسجيل الدخول"
+    "haveAccount_link": "تسجيل الدخول",
+    "googleLogin" : "Login with Google"
+
   },
   "errors": {
     "invalidCredentials": "بريد إلكتروني أو كلمة مرور غير صالحة.",

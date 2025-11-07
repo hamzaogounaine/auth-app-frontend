@@ -16,7 +16,9 @@
     "socialLogin": "Se connecter avec {{provider}}",
     "forgotPassword": "Mot de passe oublié ?",
     "noAccount_prefix": "Vous n'avez pas de compte ?",
-    "noAccount_link": "S'inscrire"
+    "noAccount_link": "S'inscrire",
+    "googleLogin" : "Login with Google"
+
   },
   "signup": {
     "title": "Créer un nouveau compte",
@@ -29,7 +31,9 @@
     "loadingText": "Chargement",
     "socialSignup": "S'inscrire avec {{provider}}",
     "haveAccount_prefix": "Vous avez déjà un compte ?",
-    "haveAccount_link": "Connexion"
+    "haveAccount_link": "Connexion",
+    "googleLogin" : "Login with Google"
+
   },
   "errors": {
     "invalidCredentials": "E-mail ou mot de passe invalide.",

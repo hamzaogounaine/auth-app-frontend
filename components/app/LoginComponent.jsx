@@ -9,6 +9,7 @@ import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl"; // 🌟 ADDED: Import for translations
 import { useAuth } from "@/context/userContext";
+import Image from "next/image";
 
 // Define a more specific type for field errors (keys should match the backend validation fields)
 const initialFieldErrors = {
@@ -34,6 +35,11 @@ export default function LoginComponent() {
   const {login} = useAuth()
 
   // 🌟 ADDED: Function to map the backend error code to the corresponding i18n key
+
+  const handleGoogleLogin = () => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
+    router.push(url)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,9 +119,9 @@ export default function LoginComponent() {
             t("submit") || "Login" // 🌟 Translated Submit Button
           )}
         </Button>
-        <Button variant="outline" className="w-full" disabled={loading}>
-          {/* {t("socialLogin", { provider: "Google" }) || "Login with Google"}{" "} */}
-          {/* 🌟 Translated Social Login */}
+        <Button variant="outline" className="w-full " disabled={loading} onClick={handleGoogleLogin}>
+          <Image src={'/google-icon.svg'} height={20} width={20} alt="google"/>
+          {t("googleLogin")}
         </Button>
         <Link
           href="#"

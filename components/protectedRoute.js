@@ -1,23 +1,54 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation"; // <-- Use useSearchParams
 import { Loader } from "lucide-react";
 import { useAuth } from "../context/userContext";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const router = useRouter();
+  // CORRECTED: Use useSearchParams to get the token from the URL query
+  const searchParams = useSearchParams(); 
+  
+  // Get the accessToken value from the query string
+  const accessToken = searchParams.get('accessToken');
+
+  
   useEffect(() => {
+    if (accessToken) {
+      // Store the token immediately
+      localStorage.setItem('accessToken', accessToken);
+      router.push('/dashboard')
+    }
+
+   
     if (!loading) {
       if (!user) {
+        // Redirect to login if user is not authenticated
         router.push("/login");
       }
     }
-  }, [loading, user]);
+    
+  }, [loading, user, accessToken, router]); // Dependency array updated
 
-  if(!loading && !user) {return <p>Unothorized</p>}
+  // --- Render Logic ---
 
-  if(loading) return <div className="min-h-full w-screen animate-spin flex items-center justify-center "><Loader /></div>
+  // Show a loading spinner while checking authentication status
+  if (loading) {
+    return (
+      <div className="min-h-full w-screen animate-spin flex items-center justify-center">
+        <Loader className="w-8 h-8" />
+      </div>
+    );
+  }
+
+  // If loading is done and there's no user, show unauthorized message 
+  // (though the useEffect should redirect immediately)
+  if (!user) {
+    return <p>Unauthorized</p>;
+  }
+
+  // Render children if the user is authenticated
   return (
     <div className="px-10 py-3">
       {children}
