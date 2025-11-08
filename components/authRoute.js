@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 import { useAuth } from "../context/userContext";
+import LoaderComponent from "./ui/Loader";
 
 const AuthRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -15,7 +16,11 @@ const AuthRoute = ({ children }) => {
     }
   }, [loading, user]);
 
-  if(loading) return <div className="min-h-full w-screen animate-spin flex items-center justify-center"><Loader /></div>
+  if (loading) {
+    return (
+      <LoaderComponent />
+    );
+  }
   return (
     <div className="px-10 py-3">
       {children}

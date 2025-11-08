@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation"; // <-- Use useSearchParams
-import { Loader } from "lucide-react";
 import { useAuth } from "../context/userContext";
+import LoaderComponent from "./ui/Loader";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -36,9 +36,7 @@ const ProtectedRoute = ({ children }) => {
   // Show a loading spinner while checking authentication status
   if (loading) {
     return (
-      <div className="min-h-full w-screen animate-spin flex items-center justify-center">
-        <Loader className="w-8 h-8" />
-      </div>
+      <LoaderComponent />
     );
   }
 
