@@ -9,6 +9,7 @@ import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { toast } from "sonner";
 
 // Define the initial state for field-specific errors
 const initialFieldErrors = {
@@ -46,13 +47,14 @@ export default function SignUpComponent() {
 
       console.log(res);
       // Assuming successful signup auto-logs in
-      if (res.data.accessToken) {
+     
+        toast.success(t(res.data.message));
         localStorage.setItem("accessToken", res.data.accessToken);
-        // router.push("/dashboard");
-      } else {
-        // Successful signup, but requires login (redirect to login page)
-        router.push("/login");
-      }
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+        
+      
     } catch (err) {
       if (err.response) {
         setErrors(err.response.data);

@@ -17,7 +17,9 @@
     "forgotPassword": "Forgot your password?",
     "noAccount_prefix": "Don't have an account?",
     "noAccount_link": "Sign Up",
-    "googleLogin" : "Login with Google"
+    "googleLogin" : "Login with Google",
+    "loginSuccess" : "Logged in sucessfully",
+    "loggedout" : "Logged out successfully"
   },
   "signup": {
     "title": "Create a new account",
@@ -31,7 +33,8 @@
     "socialSignup": "Sign Up with {{provider}}",
     "haveAccount_prefix": "Already have an account?",
     "haveAccount_link": "Login",
-    "googleLogin" : "Login with Google"
+    "googleLogin" : "Login with Google",
+    "accountCreated" : "Account created successfully!"
 
   },
   "errors": {

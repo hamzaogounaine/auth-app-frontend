@@ -18,7 +18,7 @@ const AuthRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <LoaderComponent />
+    <LoaderComponent />
     );
   }
   return (

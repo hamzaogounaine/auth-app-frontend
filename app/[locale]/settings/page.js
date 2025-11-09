@@ -1,18 +1,21 @@
-import React from 'react'
-import ProtectedRoute from '../../../components/protectedRoute'
+import React from "react";
+import ProtectedRoute from "../../../components/protectedRoute";
+import SettingsComponent from "@/components/app/SettingsComponent";
+
 
 const SettingsPage = () => {
-  return (
-    <div>
-      Settngs
-    </div>
-  )
-}
+
+ return (
+  <SettingsComponent />
+ )
+};
 
 const page = () => {
-    return <ProtectedRoute>
-        <SettingsPage />
+  return (
+    <ProtectedRoute>
+      <SettingsPage />
     </ProtectedRoute>
-}
+  );
+};
 
-export default page
+export default page;

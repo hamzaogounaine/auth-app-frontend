@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl"; // 🌟 ADDED: Import for translations
 import { useAuth } from "@/context/userContext";
 import Image from "next/image";
+import { toast } from "sonner";
 
 // Define a more specific type for field errors (keys should match the backend validation fields)
 const initialFieldErrors = {
@@ -51,8 +52,9 @@ export default function LoginComponent() {
 
       console.log(res);
       login(res.data.accessToken)
-      // localStorage.setItem("accessToken", res.data.accessToken);
-
+      if(res.data.message) {
+        toast.success(t(res.data.message))
+      }
       router.push("/dashboard");
     } catch (err) {
       console.error("Login Error:", err);

@@ -3,7 +3,7 @@ import React from 'react'
 
 const LoaderComponent = () => {
   return (
-    <div className='screen-h flex w-screen items-center justify-center'>
+    <div className='h-screen inset-0 z-50 bg-background flex w-screen items-center justify-center'>
       <LoaderIcon  className='animate-spin'/>
     </div>
   )

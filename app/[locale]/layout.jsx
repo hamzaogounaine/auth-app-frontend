@@ -4,6 +4,7 @@ import "../globals.css";
 import { NextIntlClientProvider } from "next-intl"; 
 import { AuthProvider } from '../../context/userContext';
 import Navbar from "../../components/app/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 // --- TYPE DEFINITION ---
 
@@ -50,6 +51,7 @@ export default function LocaleLayout({ children }) {
           <AuthProvider>
             <Navbar />
             {children}
+            <Toaster />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>
