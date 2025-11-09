@@ -6,6 +6,7 @@ import { BellRing, Lock, Paintbrush2Icon, User } from "lucide-react";
 import ProfileTab from "@/components/settingsPage/profileTab";
 import { useAuth } from "@/context/userContext";
 import PrivacyTab from '../settingsPage/privacyTab';
+import { Separator } from '../ui/separator';
 
 const SettingsComponent = () => {
     const {user} = useAuth()
@@ -19,6 +20,7 @@ const SettingsComponent = () => {
             Manage your account and preferences
           </p>
         </div>
+        <Separator className={'my-7 w-screen'}/>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 ">
           <div className="profileCard md:col-span-1">
             <ProfileCard user={user}/>
