@@ -48,7 +48,7 @@ const ProtectedRoute = ({ children }) => {
 
   // Render children if the user is authenticated
   return (
-    <div className="px-10 py-3">
+    <div className="px-6 py-3">
       {children}
     </div>
   );
