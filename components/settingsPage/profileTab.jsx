@@ -15,7 +15,7 @@ const ProfileTab = ({user}) => {
         </Label>
         <Input
           id="first-name"
-          defaultValue="Alex"
+          defaultValue={user.first_name}
           className="mt-1 bg-input border-border"
           placeholder="Enter first name"
         />
@@ -26,7 +26,7 @@ const ProfileTab = ({user}) => {
         </Label>
         <Input
           id="last-name"
-          defaultValue="Johnson"
+          defaultValue={user.last_name}
           className="mt-1 bg-input border-border"
           placeholder="Enter last name"
         />
@@ -53,7 +53,7 @@ const ProfileTab = ({user}) => {
       <Input
         id="phone"
         type="tel"
-        defaultValue="+1 (555) 123-4567"
+        defaultValue={user.phone_number || null}
         className="mt-1 bg-input border-border"
         placeholder="Enter phone"
       />
@@ -65,7 +65,7 @@ const ProfileTab = ({user}) => {
       </Label>
       <textarea
         id="bio"
-        defaultValue="Product designer & developer"
+        defaultValue={user.bio || null}
         className="mt-1 w-full px-3 py-2 rounded-md border border-border bg-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
         rows={4}
         placeholder="Tell us about yourself"

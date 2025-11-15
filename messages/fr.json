@@ -3,8 +3,8 @@
     "home": "Accueil",
     "login": "Connexion",
     "signup": "Inscription",
-    "profile" : "Profile",
-    "settings" : "Parametre"
+    "profile": "Profile",
+    "settings": "Parametre"
   },
   "login": {
     "title": "Connectez-vous à votre compte",
@@ -17,15 +17,15 @@
     "forgotPassword": "Mot de passe oublié ?",
     "noAccount_prefix": "Vous n'avez pas de compte ?",
     "noAccount_link": "S'inscrire",
-    "googleLogin" : "Login with Google",
-    "loginSuccess" : "Logged in sucessfully",
-    "loggedout" : "Logged out successfully"
-
-
+    "googleLogin": "Login with Google",
+    "loginSuccess": "Logged in sucessfully",
+    "loggedout": "Logged out successfully"
   },
   "signup": {
     "title": "Créer un nouveau compte",
-    "subtitle": "Entrez vos identifiants ci-dessous pour créer votre compte.",
+    "subtitle": "Entrez vos informations ci-dessous pour créer votre compte.",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
     "username": "Nom d'utilisateur",
     "email": "E-mail",
     "password": "Mot de passe",
@@ -34,20 +34,32 @@
     "loadingText": "Chargement",
     "socialSignup": "S'inscrire avec {{provider}}",
     "haveAccount_prefix": "Vous avez déjà un compte ?",
-    "haveAccount_link": "Connexion",
-    "googleLogin" : "Login with Google",
-    "accountCreated" : "Account created successfully!"
-
+    "haveAccount_link": "Se connecter",
+    "googleLogin": "S'inscrire avec Google",
+    "accountCreated": "Compte créé avec succès !"
+  },
+  "deviceVerif": {
+    "title": "Vérification de l'appareil Requise",
+    "subtitle_1": "Un code de sécurité a été envoyé à :",
+    "subtitle_2": "Veuillez vérifier votre boîte de réception et votre dossier spam.",
+    "code_label": "Code de vérification",
+    "button_submit": "Soumettre le Code",
+    "button_loading": "Vérification en cours...",
+    "resend_link": "Renvoyer le Code",
+    "error_network": "Une erreur réseau est survenue. Veuillez vérifier votre connexion.",
+    "error_invalid_length": "Le code doit comporter 6 chiffres.",
+    "error_generic": "La vérification a échoué. Veuillez réessayer ou renvoyer le code."
   },
   "errors": {
-    "invalidCredentials": "E-mail ou mot de passe invalide.",
-    "required": "Ce champ est requis.",
-    "emailInvalid": "L'e-mail n'est pas valide.",
+    "shortUsername": "Le nom d'utilisateur doit contenir au moins 3 caractères.",
+    "required": "Ce champ est obligatoire.",
+    "requiredConfirmPassword": "La confirmation du mot de passe est obligatoire.",
+    "invalidEmail": "L'adresse e-mail n'est pas valide.",
     "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères.",
-    "confirmPasswordRequired": "La confirmation du mot de passe est requise.",
-    "passwordsMustMatch": "Les mots de passe doivent correspondre.",
-    "usernameUnique": "Ce nom d'utilisateur est déjà pris.",
-    "emailUnique": "Cet e-mail est déjà utilisé.",
-    "unexpectedError": "Une erreur inattendue est survenue."
+    "passwordsDontMatch": "Les mots de passe ne correspondent pas.",
+    "usernameTaken": "Ce nom d'utilisateur est déjà pris.",
+    "emailTaken": "Cette adresse e-mail est déjà utilisée.",
+    "invalidCredentials": "Identifiants invalides (e-mail ou mot de passe).",
+    "unexpectedError": "Une erreur inattendue est survenue. Veuillez réessayer plus tard."
   }
 }

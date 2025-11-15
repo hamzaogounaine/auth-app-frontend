@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl"; // 🌟 ADDED: Import for translati
 import { useAuth } from "@/context/userContext";
 import Image from "next/image";
 import { toast } from "sonner";
+import VerifyDevice from "./VerifyDevice";
 
 // Define a more specific type for field errors (keys should match the backend validation fields)
 const initialFieldErrors = {
@@ -50,11 +51,9 @@ export default function LoginComponent() {
     try {
       const res = await api.post("/login", { email, password });
 
-      console.log(res);
-      login(res.data.accessToken)
-      if(res.data.message) {
-        toast.success(t(res.data.message))
-      }
+      const message = res.data.message && t(res.data.message)
+      login(res.data.accessToken, message)
+      
       router.push("/dashboard");
     } catch (err) {
       console.error("Login Error:", err);
@@ -68,7 +67,6 @@ export default function LoginComponent() {
       setLoading(false);
     }
   };
-
   return (
     <div className="mx-auto max-w-sm space-y-6 ">
       <div className="space-y-2 text-center">

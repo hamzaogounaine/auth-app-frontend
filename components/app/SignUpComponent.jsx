@@ -3,156 +3,221 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import React, { useState } from "react";
-import api from "@/lib/api";
+import api from "@/lib/api"; 
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z } from "zod"; 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation"; 
+import { useState } from "react"; 
 import { toast } from "sonner";
 
-// Define the initial state for field-specific errors
-const initialFieldErrors = {
-  username: "",
-  email: "",
-  password: "",
-};
-
-// Error structure: general for generic messages, fields for validation
-const initialErrors = {
-  general: null,
-  fields: initialFieldErrors,
-};
-
 export default function SignUpComponent() {
-  const t = useTranslations("signup"); // 🌟 Initialize translation hook
+  const t = useTranslations("signup");
   const t2 = useTranslations("errors");
+  const router = useRouter(); 
 
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState(initialErrors);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  // State for general API error messages (401, 500, or unmapped errors)
+  const [apiError, setApiError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); 
 
-  // Function to map the backend error code to the corresponding i18n key
+  // --- 1. ZOD SCHEMA ---
+  // Note: Password min length set to 8 for security best practice, not 6.
+  const signUpSchema = z
+    .object({
+      username: z.string().min(3, { message: t2("shortUsername") }),
+      firstName: z.string().min(1, { message: t2("required") }),
+      lastName: z.string().min(1, { message: t2("required") }),
+      email: z.string().email({ message: t2("invalidEmail") }),
+      password: z.string().min(6, { message: t2("passwordMinLength") }), 
+      confirmPassword: z.string().min(1, { message: t2("requiredConfirmPassword") }), 
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t2("passwordsDontMatch"),
+      path: ["confirmPassword"], 
+    });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrors([]);
 
+  // --- 2. RHF INITIALIZATION ---
+  const {
+    register,
+    handleSubmit,
+    // ⬅️ CRITICAL: Destructure setError to handle backend errors
+    setError, 
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    }
+  });
+
+
+  // --- 3. API SUBMISSION LOGIC ---
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    setApiError(null);
     try {
-      const res = await api.post("/signup", { email, username, password });
-
-      console.log(res);
-      // Assuming successful signup auto-logs in
-     
-        toast.success(t(res.data.message));
-        localStorage.setItem("accessToken", res.data.accessToken);
-        setTimeout(() => {
-          router.push("/login");
-        }, 1000);
-        
+      await api.post('/signup', data);
+      toast.success(t('accountCreated'))      
+      router.push('/login'); 
       
     } catch (err) {
-      if (err.response) {
-        setErrors(err.response.data);
+      console.error("Signup failed:", err);
+      
+      // Check for structured errors from the backend (e.g., status 400 or 409)
+      const backendErrors = err.response?.data?.errors; 
+
+      if (backendErrors && typeof backendErrors === 'object') {
+        
+        // Iterate over the error object keys (e.g., 'username', 'email')
+        Object.keys(backendErrors).forEach(key => {
+          const errorKey = backendErrors[key]; // This is the translation key (e.g., 'usernameTaken')
+          
+          if (key === 'general') {
+            // Handle general errors separate from fields (rare for signup, but good practice)
+            setApiError(t2(errorKey));
+          } else {
+            // ⬅️ SET FIELD-SPECIFIC ERROR: Map backend error to the form field
+            setError(key, { 
+                type: 'server', 
+                message: t2(errorKey) // Use the translation key for the error message
+            });
+          }
+        });
       } else {
-        setErrors({ general: "unexpectedError" });
+        // Fallback for network errors, 500 server errors, or malformed responses
+        setApiError(t2('unexpectedError'));
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+
   const handleGoogleLogin = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
-    router.push(url)
-  }
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+    router.push(url);
+  };
+
+  // Dedicated component for displaying field errors (must use RHF 'errors' object)
+  const ErrorMessage = ({ error }) => {
+    if (!error) return null;
+    return <p className="text-red-500 text-sm mt-1">{error.message}</p>;
+  };
 
   return (
     <div className="mx-auto max-w-sm space-y-6 ">
       <div className="space-y-2 text-center">
-        {/* 🌟 Translated Title */}
         <h1 className="text-3xl font-bold">{t("title")}</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          {/* Default instructional text, optionally translated */}
-          {t("subtitle") || "Entrez vos informations pour créer votre compte."}
-
-          {/* Display the general error message (if set) */}
-          {errors.general && (
-            <span className="text-red-500 block mt-2">
-              {t2(errors.general)}
-            </span>
-          )}
+          {t("subtitle")}
         </p>
       </div>
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      
+      {/* ⬅️ 4. DISPLAY GENERAL API ERROR HERE (Above the form) */}
+      {apiError && (
+           <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-700 text-sm font-medium text-center">{apiError}</p>
+           </div>
+      )}
+
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {/* Username Field */}
         <div className="space-y-2">
           <Label htmlFor="username">{t("username")}</Label>
           <Input
-            id="username"
             type="text"
             placeholder={t("username")}
-            onChange={(e) => setUsername(e.target.value)}
+            {...register("username")} 
           />
-          {errors.username && (
-            <p className="text-sm text-red-500">{t2(errors.username)}</p>
-          )}
+          <ErrorMessage error={errors.username} /> 
+        </div>
+
+        {/* First Name Field */}
+        <div className="space-y-2">
+          <Label htmlFor="firstName">{t("firstName")}</Label>
+          <Input
+            type="text"
+            placeholder={t("firstName")}
+            {...register("firstName")} 
+          />
+          <ErrorMessage error={errors.firstName} />
+        </div>
+
+        {/* Last Name Field */}
+        <div className="space-y-2">
+          <Label htmlFor="lastName">{t("lastName")}</Label>
+          <Input
+            type="text"
+            placeholder={t("lastName")}
+            {...register("lastName")} 
+          />
+          <ErrorMessage error={errors.lastName} />
         </div>
 
         {/* Email Field */}
         <div className="space-y-2">
           <Label htmlFor="email">{t("email")}</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
-            onChange={(e) => setEmail(e.target.value)}
+          <Input 
+            type="email" 
+            placeholder="m@example.com" 
+            {...register("email")} 
           />
-          {errors.email && (
-            <p className="text-sm text-red-500">{t2(errors.email)}</p>
-          )}
+          <ErrorMessage error={errors.email} />
         </div>
 
         {/* Password Field */}
         <div className="space-y-2">
           <Label htmlFor="password">{t("password")}</Label>
-          <Input
-            id="password"
-            type="password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
+          <Input 
+            type="password" 
+            {...register("password")} 
           />
-          {errors.password && (
-            <p className="text-sm text-red-500">{t2(errors.password)}</p>
-          )}
+          <ErrorMessage error={errors.password} />
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? (
+        {/* Confirm Password Field */}
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
+          <Input 
+            type="password" 
+            {...register("confirmPassword")} 
+          />
+          <ErrorMessage error={errors.confirmPassword} />
+        </div>
+        
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isLoading} 
+        >
+          {isLoading ? (
             <span className="flex gap-2 items-center justify-center">
-              {t("loadingText") || "Chargement"}{" "}
+              {t("loadingText") || "Creating account"}{" "}
               <Loader className="animate-spin h-4 w-4" />
             </span>
           ) : (
-            // 🌟 Translated Submit Button (was "Login")
             t("submit")
           )}
         </Button>
         <Button
+          type="button" 
           variant="outline"
           className="w-full "
-          disabled={loading}
           onClick={handleGoogleLogin}
         >
           <Image src={"/google-icon.svg"} height={20} width={20} alt="google" />
           {t("googleLogin")}
         </Button>
         <div className="mt-4 text-center text-sm">
-          {/* 🌟 Translated link text */}
           {t("haveAccount_prefix")}{" "}
           <Link href="/login" className="underline" prefetch={false}>
             {t("haveAccount_link")}

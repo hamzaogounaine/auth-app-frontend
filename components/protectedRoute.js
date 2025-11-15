@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation"; // <-- Use useSearchParams
+import {  useSearchParams , useRouter } from "next/navigation"; // <-- Use useSearchParams
 import { useAuth } from "../context/userContext";
 import LoaderComponent from "./ui/Loader";
+import { setAuthToken } from "@/lib/api";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading , isAuthenticated } = useAuth();
   const router = useRouter();
   // CORRECTED: Use useSearchParams to get the token from the URL query
   const searchParams = useSearchParams(); 
@@ -15,21 +16,20 @@ const ProtectedRoute = ({ children }) => {
 
   
   useEffect(() => {
-    if (accessToken) {
-      // Store the token immediately
-      localStorage.setItem('accessToken', accessToken);
+    if (accessToken && accessToken.length ) {
+      setAuthToken(accessToken);
       router.push('/dashboard')
     }
 
    
     if (!loading) {
-      if (!user) {
+      if (!user && !isAuthenticated) {
         // Redirect to login if user is not authenticated
         router.push("/login");
       }
     }
     
-  }, [loading, user, accessToken, router]); // Dependency array updated
+  }, [isAuthenticated, user, loading]); // Dependency array updated
 
   // --- Render Logic ---
 
@@ -42,7 +42,7 @@ const ProtectedRoute = ({ children }) => {
 
   // If loading is done and there's no user, show unauthorized message 
   // (though the useEffect should redirect immediately)
-  if (!user) {
+  if (!user && !loading) {
     return <p>Unauthorized</p>;
   }
 

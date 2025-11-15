@@ -118,7 +118,10 @@
   }
   .screen-h {
     min-height: calc(100vh - 4rem);
-}
+  }
+  .error {
+    @apply text-sm text-red-500
+  }
   body {
     @apply bg-background text-foreground;
   }

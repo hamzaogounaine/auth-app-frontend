@@ -3,8 +3,8 @@
     "home": "الرئيسية",
     "login": "تسجيل الدخول",
     "signup": "إنشاء حساب",
-    "profile" : "الحساب",
-    "settings" : "الاعدادات"
+    "profile": "الحساب",
+    "settings": "الاعدادات"
   },
   "login": {
     "title": "سجّل الدخول إلى حسابك",
@@ -17,37 +17,49 @@
     "forgotPassword": "هل نسيت كلمة المرور؟",
     "noAccount_prefix": "ليس لديك حساب؟",
     "noAccount_link": "إنشاء حساب",
-    "googleLogin" : "Login with Google",
-    "loginSuccess" : "Logged in sucessfully",
-    "loggedout" : "Logged out successfully"
-
-
+    "googleLogin": "Login with Google",
+    "loginSuccess": "Logged in sucessfully",
+    "loggedout": "Logged out successfully"
   },
   "signup": {
     "title": "إنشاء حساب جديد",
-    "subtitle": "أدخل بيانات اعتمادك أدناه لإنشاء حسابك.",
+    "subtitle": "أدخل بيانات الاعتماد أدناه لإنشاء حسابك.",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
     "username": "اسم المستخدم",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "confirmPassword": "تأكيد كلمة المرور",
-    "submit": "إنشاء حساب",
-    "loadingText": "جارٍ التحميل",
-    "socialSignup": "إنشاء حساب باستخدام {{provider}}",
+    "submit": "تسجيل",
+    "loadingText": "جاري التحميل",
+    "socialSignup": "التسجيل باستخدام {{provider}}",
     "haveAccount_prefix": "هل لديك حساب بالفعل؟",
     "haveAccount_link": "تسجيل الدخول",
-    "googleLogin" : "Login with Google",
-    "accountCreated" : "Account created successfully!"
-
+    "googleLogin": "التسجيل باستخدام جوجل",
+    "accountCreated": "تم إنشاء الحساب بنجاح!"
+  },
+  "deviceVerif": {
+    "title": "مطلوب التحقق من الجهاز",
+    "subtitle_1": "تم إرسال رمز أمان إلى:",
+    "subtitle_2": "يرجى التحقق من صندوق الوارد ومجلد الرسائل غير المرغوب فيها.",
+    "code_label": "رمز التحقق",
+    "button_submit": "إرسال الرمز",
+    "button_loading": "جارٍ التحقق...",
+    "resend_link": "إعادة إرسال الرمز",
+    "error_network": "حدث خطأ في الشبكة. يرجى التحقق من اتصالك.",
+    "error_invalid_length": "يجب أن يتكون الرمز من 6 أرقام.",
+    "error_generic": "فشل التحقق. يرجى المحاولة مرة أخرى أو إعادة إرسال الرمز."
   },
   "errors": {
-    "invalidCredentials": "بريد إلكتروني أو كلمة مرور غير صالحة.",
+    "shortUsername": "يجب أن يحتوي اسم المستخدم على 3 أحرف على الأقل.",
     "required": "هذا الحقل مطلوب.",
-    "emailInvalid": "البريد الإلكتروني غير صالح.",
+    "requiredConfirmPassword": "تأكيد كلمة المرور مطلوب.",
+    "invalidEmail": "البريد الإلكتروني غير صالح.",
     "passwordMinLength": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل.",
-    "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب.",
-    "passwordsMustMatch": "يجب أن تتطابق كلمات المرور.",
-    "usernameUnique": "اسم المستخدم هذا مُستخدم بالفعل.",
-    "emailUnique": "البريد الإلكتروني هذا مُستخدم بالفعل.",
-    "unexpectedError": "حدث خطأ غير متوقع."
+    "passwordsDontMatch": "كلمات المرور غير متطابقة.",
+    "usernameTaken": "اسم المستخدم هذا مُستخدم بالفعل.",
+    "emailTaken": "البريد الإلكتروني هذا مُستخدم بالفعل.",
+    "invalidCredentials": "بيانات الاعتماد غير صالحة (البريد الإلكتروني أو كلمة المرور).",
+    "unexpectedError": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً."
   }
 }

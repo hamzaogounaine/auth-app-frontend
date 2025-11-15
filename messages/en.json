@@ -21,9 +21,11 @@
     "loginSuccess" : "Logged in sucessfully",
     "loggedout" : "Logged out successfully"
   },
-  "signup": {
+ "signup": {
     "title": "Create a new account",
     "subtitle": "Enter your credentials below to create your account.",
+    "firstName": "First Name", 
+    "lastName": "Last Name",   
     "username": "Username",
     "email": "Email",
     "password": "Password",
@@ -33,19 +35,31 @@
     "socialSignup": "Sign Up with {{provider}}",
     "haveAccount_prefix": "Already have an account?",
     "haveAccount_link": "Login",
-    "googleLogin" : "Login with Google",
-    "accountCreated" : "Account created successfully!"
-
+    "googleLogin": "Sign Up with Google", 
+    "accountCreated": "Account created successfully!"
+  } ,
+  "deviceVerif": {
+    "title": "Device Verification Required",
+    "subtitle_1": "A security code has been sent to:",
+    "subtitle_2": "Please check your inbox and spam folder.",
+    "code_label": "Verification Code",
+    "button_submit": "Submit Code",
+    "button_loading": "Verifying...",
+    "resend_link": "Resend Code",
+    "error_network": "A network error occurred. Please check your connection.",
+    "error_invalid_length": "Code must be 6 digits.",
+    "error_generic": "Verification failed. Please try again or resend the code."
   },
   "errors": {
-    "invalidCredentials": "Invalid email or password.",
+    "shortUsername": "Username must contain at least 3 characters.",
     "required": "This field is required.",
-    "emailInvalid": "Email is not valid.",
+    "requiredConfirmPassword": "Password confirmation is required.",
+    "invalidEmail": "The email address is not valid.",
     "passwordMinLength": "Password must contain at least 6 characters.",
-    "confirmPasswordRequired": "Password confirmation is required.",
-    "passwordsMustMatch": "Passwords must match.",
-    "usernameUnique": "This username is already taken.",
-    "emailUnique": "This email is already taken.",
-    "unexpectedError": "An unexpected error occurred."
+    "passwordsDontMatch": "Passwords do not match.",
+    "usernameTaken": "This username is already taken.",
+    "emailTaken": "This email is already taken.",
+    "invalidCredentials": "Invalid email or password.",
+    "unexpectedError": "An unexpected error occurred. Please try again later."
   }
 }

@@ -1,98 +1,94 @@
-// src/context/AuthContext.js
-"use client"
-import api from '@/lib/api';
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+"use client";
+import api, { setAuthToken, refreshInstance } from "@/lib/api";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-// 1. Define the initial state and context structure
 const AuthContext = createContext({
-  user: null, // Holds user profile data
-  isAuthenticated: false, // Simple flag
-  loading: true, // Indicates if initial load/check is complete
-  login: (token) => {}, // Function to set tokens and state
-  logout: () => {}, // Function to clear tokens and state
-  fetchUser: () => {}, // Function to fetch user data after successful login/refresh
+  user: null,
+  isAuthenticated: false,
+  loading: true,
+  login: (token) => {},
+  logout: () => {},
+  fetchUser: () => {},
+  setAccessToken: () => {},
 });
 
-// 2. Create the Auth Provider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState(null);
+  const router = useRouter();
 
-  // Function to get the user data after authentication
-  const fetchUser = useCallback(async () => {
-    try {
-      // Assuming you have an endpoint to fetch the logged-in user's profile
-      const response = await api.get('/profile'); 
-      console.log(response)
-      setUser(response.data.user);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-      // Clear tokens and state if fetching user fails
-      localStorage.removeItem('accessToken');
+  // --- Token Sync Bridge ---
+  useEffect(() => {
+    setAuthToken(accessToken);
+  }, [accessToken]);
+
+  // --- Logout Function ---
+  const logout = useCallback(
+    (shouldRedirect = true) => {
+      setAccessToken(null);
       setUser(null);
       setIsAuthenticated(false);
-      // NOTE: Your axios interceptor handles redirecting to /login on 401
+
+      toast.success("Logged out successfully");
+
+      api
+        .post("/logout")
+        .catch((err) => console.error("Logout request failed:", err));
+
+      if (shouldRedirect) {
+        router.push("/login");
+      }
+    },
+    [router]
+  );
+
+  const login = async (token, message) => {
+    toast.success(message);
+    setAccessToken(token)
+    await fetchSession()
+    setIsAuthenticated(true)
+  };
+
+  const fetchSession = async () => {
+    try {
+      const userRes = await api.get("/profile");
+      setUser(userRes.data.user);
+      console.log("profile set", userRes);
+      setIsAuthenticated(true);
+    } catch (err) {
+      setIsAuthenticated(false);
+      setUser(null);
     } finally {
       setLoading(false);
     }
-  }, []);
-
-
-  // --- Authentication Handlers ---
-
-  const login = (accessToken) => {
-    localStorage.setItem('accessToken', accessToken);
-    fetchUser();
-    // Redirect logic can be added here if needed
   };
-
-  const logout = () => {
-    // 1. Clear state
-    setUser(null);
-    setIsAuthenticated(false);
-    setLoading(false);
-
-    // 2. Clear tokens
-    localStorage.removeItem('accessToken');
-    
-    // 3. Inform the backend to clear the HttpOnly refresh token cookie
-    // You'll need a logout endpoint for this
-    api.post('/logout') 
-      .catch(err => console.error("Logout request failed:", err));
-
-    // 4. Redirect to login page
-    window.location.href = '/login'; 
-  };
-  
-  // --- Initial Load Effect ---
 
   useEffect(() => {
-    // On app load, check if an access token exists and fetch user data
-    if (localStorage.getItem('accessToken')) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
-  }, [fetchUser]);
+    fetchSession();
+  }, []);
 
-  // 3. Provide the context value
   const contextValue = {
     user,
     isAuthenticated,
     loading,
     login,
     logout,
-    fetchUser
+    setAccessToken,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
-// 4. Custom Hook for easy consumption
 export const useAuth = () => useContext(AuthContext);

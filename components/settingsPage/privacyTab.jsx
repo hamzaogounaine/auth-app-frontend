@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import api from "@/lib/api"; // Assuming this is your Axios/Fetch wrapper
 import { toast } from "sonner";
+import { useAuth } from "@/context/userContext";
 
 const PrivacyTab = () => {
     // 1. State for managing form inputs
@@ -15,6 +16,7 @@ const PrivacyTab = () => {
         confirmPassword: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const {logout} = useAuth()
 
     // Handler to update state on input change
     const handleInputChange = (e) => {
@@ -57,7 +59,10 @@ const PrivacyTab = () => {
             });
             
             toast.dismiss(loadingToastId);
-            toast.success(res.data.message || "Password updated successfully!");
+            toast.success(res.data.message || "Password updated successfully! Login again");
+            logout()
+            
+
 
             // 3. Clear the form fields on success
             setPasswords({
