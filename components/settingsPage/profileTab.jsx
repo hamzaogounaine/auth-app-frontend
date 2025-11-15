@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { use, useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import api from '@/lib/api'
+import { toast } from 'sonner'
 
 const ProfileTab = ({user}) => {
+  const [firstName , setFirstName] = useState(user.first_name)
+  const [lastName , setLastName] = useState(user.last_name)
+  const [email , setEmail] = useState(user.email)
+  const [phoneNumber , setPhoneNumber] = useState(user.phone_number)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    try {
+      const res = await api.post('/update-profile' , {userId : user._id , firstName,lastName,email,phoneNumber})
+      if(res.status === 200) {
+        toast.success('profile updated')
+      }
+    }
+     catch (err) {
+      console.log(err)
+     }
+     finally {
+      setLoading(false)
+     }
+  }
+
   return (
     <div className="space-y-6">
     <h3 className="text-lg font-semibold text-foreground">Profile Information</h3>
@@ -15,9 +39,10 @@ const ProfileTab = ({user}) => {
         </Label>
         <Input
           id="first-name"
-          defaultValue={user.first_name}
+          defaultValue={firstName}
           className="mt-1 bg-input border-border"
           placeholder="Enter first name"
+          onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
       <div>
@@ -26,9 +51,10 @@ const ProfileTab = ({user}) => {
         </Label>
         <Input
           id="last-name"
-          defaultValue={user.last_name}
+          defaultValue={lastName}
           className="mt-1 bg-input border-border"
           placeholder="Enter last name"
+          onChange={(e) => setLastName(e.target.value)}
         />
       </div>
     </div>
@@ -40,9 +66,10 @@ const ProfileTab = ({user}) => {
       <Input
         id="email"
         type="email"
-        defaultValue={user.email}
+        defaultValue={email}
         className="mt-1 bg-input border-border"
         placeholder="Enter email"
+        onChange={(e) => setEmail(e.target.value)}
       />
     </div>
 
@@ -52,10 +79,11 @@ const ProfileTab = ({user}) => {
       </Label>
       <Input
         id="phone"
-        type="tel"
-        defaultValue={user.phone_number || null}
+        type="string"
+        defaultValue={phoneNumber}
         className="mt-1 bg-input border-border"
         placeholder="Enter phone"
+        onChange={(e) => setPhoneNumber(e.target.value)}
       />
     </div>
 
@@ -72,7 +100,7 @@ const ProfileTab = ({user}) => {
       />
     </div>
 
-    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Save Changes</Button>
+    <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled={loading} onClick={handleSubmit}>Save Changes</Button>
   </div>
   )
 }
