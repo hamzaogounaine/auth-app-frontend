@@ -48,7 +48,29 @@
     "resend_link": "Renvoyer le Code",
     "error_network": "Une erreur réseau est survenue. Veuillez vérifier votre connexion.",
     "error_invalid_length": "Le code doit comporter 6 chiffres.",
-    "error_generic": "La vérification a échoué. Veuillez réessayer ou renvoyer le code."
+    "error_generic": "La vérification a échoué. Veuillez réessayer ou renvoyer le code.",
+    "deviceVerified": "Appareil vérifié avec succès." 
+  },
+  "notifications": {
+    "sendingVerification": "Envoi de l'e-mail de vérification...",
+    "verificationSuccess": "E-mail de vérification envoyé avec succès ! Vérifiez votre boîte de réception.",
+    "verificationFailure": "Échec de l'envoi de l'e-mail de vérification. Veuillez réessayer plus tard.",
+    "profileUpdated": "Profil mis à jour",
+    "profileUpdateFailure": "Échec de la mise à jour du profil. Veuillez réessayer plus tard."
+  },
+  "profileTab": {
+    "heading": "Informations de profil",
+    "firstNameLabel": "Prénom",
+    "firstNamePlaceholder": "Entrez le prénom",
+    "lastNameLabel": "Nom de famille",
+    "lastNamePlaceholder": "Entrez le nom de famille",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "Entrez l'e-mail",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "Entrez le numéro de téléphone",
+    "bioLabel": "Biographie",
+    "bioPlaceholder": "Parlez-nous de vous",
+    "saveButton": "Enregistrer les modifications"
   },
   "errors": {
     "shortUsername": "Le nom d'utilisateur doit contenir au moins 3 caractères.",
@@ -60,6 +82,11 @@
     "usernameTaken": "Ce nom d'utilisateur est déjà pris.",
     "emailTaken": "Cette adresse e-mail est déjà utilisée.",
     "invalidCredentials": "Identifiants invalides (e-mail ou mot de passe).",
-    "unexpectedError": "Une erreur inattendue est survenue. Veuillez réessayer plus tard."
+    "unexpectedError": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "noCodeProvided": "Le code de vérification ne peut pas être vide.",
+    "noUserFound": "Utilisateur introuvable. Ce lien de vérification est peut-être invalide.",
+    "invalidCode": "Le code de vérification est incorrect. Veuillez vérifier à nouveau votre e-mail.",
+    "codeExpired": "Le code de vérification a expiré. Veuillez en demander un nouveau.",
+    "error_network" :"Une erreur réseau est survenue. Veuillez vérifier votre connexion."
   }
 }

@@ -33,6 +33,7 @@ export default function LoginComponent() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mustVerifyDevice ,setMustVerifyDevice ] = useState(false)
   const router = useRouter();
   const {login} = useAuth()
 
@@ -51,9 +52,14 @@ export default function LoginComponent() {
     try {
       const res = await api.post("/login", { email, password });
 
+      console.log("login " ,res)
+      if(res.status === 200 && res.data.message === "mustVerifyIp") {
+        setMustVerifyDevice(true)
+        return
+      }
       const message = res.data.message && t(res.data.message)
-      login(res.data.accessToken, message)
       
+      login(res.data.accessToken, message)
       router.push("/dashboard");
     } catch (err) {
       console.error("Login Error:", err);
@@ -67,6 +73,12 @@ export default function LoginComponent() {
       setLoading(false);
     }
   };
+
+  if(mustVerifyDevice) {
+    return <VerifyDevice email={email}/>
+
+  }
+
   return (
     <div className="mx-auto max-w-sm space-y-6 ">
       <div className="space-y-2 text-center">

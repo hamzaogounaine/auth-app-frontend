@@ -3,8 +3,8 @@
     "home": "Home",
     "login": "Login",
     "signup": "Sign Up",
-    "profile" : "Profile",
-    "settings" : "Settings"
+    "profile": "Profile",
+    "settings": "Settings"
   },
   "login": {
     "title": "Log in to your account",
@@ -17,15 +17,15 @@
     "forgotPassword": "Forgot your password?",
     "noAccount_prefix": "Don't have an account?",
     "noAccount_link": "Sign Up",
-    "googleLogin" : "Login with Google",
-    "loginSuccess" : "Logged in sucessfully",
-    "loggedout" : "Logged out successfully"
+    "googleLogin": "Login with Google",
+    "loginSuccess": "Logged in sucessfully",
+    "loggedout": "Logged out successfully"
   },
- "signup": {
+  "signup": {
     "title": "Create a new account",
     "subtitle": "Enter your credentials below to create your account.",
-    "firstName": "First Name", 
-    "lastName": "Last Name",   
+    "firstName": "First Name",
+    "lastName": "Last Name",
     "username": "Username",
     "email": "Email",
     "password": "Password",
@@ -35,9 +35,9 @@
     "socialSignup": "Sign Up with {{provider}}",
     "haveAccount_prefix": "Already have an account?",
     "haveAccount_link": "Login",
-    "googleLogin": "Sign Up with Google", 
+    "googleLogin": "Sign Up with Google",
     "accountCreated": "Account created successfully!"
-  } ,
+  },
   "deviceVerif": {
     "title": "Device Verification Required",
     "subtitle_1": "A security code has been sent to:",
@@ -48,7 +48,29 @@
     "resend_link": "Resend Code",
     "error_network": "A network error occurred. Please check your connection.",
     "error_invalid_length": "Code must be 6 digits.",
-    "error_generic": "Verification failed. Please try again or resend the code."
+    "error_generic": "Verification failed. Please try again or resend the code.",
+    "deviceVerified": "Device verified successfully."
+  },
+  "notifications": {
+    "sendingVerification": "Sending verification email...",
+    "verificationSuccess": "Verification email sent successfully! Check your inbox.",
+    "verificationFailure": "Failed to send verification email. Try again later.",
+    "profileUpdated": "Profile updated",
+    "profileUpdateFailure": "Failed to update profile. Try again later."
+  },
+  "profileTab": {
+    "heading": "Profile Information",
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter email",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter phone",
+    "bioLabel": "Bio",
+    "bioPlaceholder": "Tell us about yourself",
+    "saveButton": "Save Changes"
   },
   "errors": {
     "shortUsername": "Username must contain at least 3 characters.",
@@ -60,6 +82,10 @@
     "usernameTaken": "This username is already taken.",
     "emailTaken": "This email is already taken.",
     "invalidCredentials": "Invalid email or password.",
-    "unexpectedError": "An unexpected error occurred. Please try again later."
+    "unexpectedError": "An unexpected error occurred. Please try again later.",
+    "noCodeProvided": "The verification code cannot be empty.",
+    "noUserFound": "User not found. This verification link may be invalid.",
+    "invalidCode": "The verification code is incorrect. Please check your email again.",
+    "codeExpired": "The verification code has expired. Please request a new one."
   }
 }
